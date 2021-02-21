@@ -36,10 +36,12 @@ export const StyledSearchContainer = styled.div`
 `;
 
 export default function SearchContainer(props) {
-    return (<StyledSearchContainer>
-        <StyledForm onSubmit={props.handleSubmit}>
-            <StyledInput type="text" onChange={ev => props.setSearchText(ev.currentTarget.value.toLowerCase())} value={props.searchText} />
-            <StyledButton type="submit"><FiSearch /></StyledButton>
-        </StyledForm>
-    </StyledSearchContainer>);
+    return (
+        <StyledSearchContainer>
+            <StyledForm onSubmit={props.handleSubmit}>
+                <StyledInput type="text" onChange={ev => props.setSearchText(ev.currentTarget.value.toLowerCase())} value={props.searchText} />
+                <StyledButton type="submit"><FiSearch /></StyledButton>
+            </StyledForm>
+        </StyledSearchContainer>
+    );
 }

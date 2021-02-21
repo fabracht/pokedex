@@ -81,11 +81,11 @@ export default function Pokecard(props) {
         // console.log(el.ability);
         return { name: el.ability.name, url: el.ability.url };
       }));
-      // console.log(json.abilities);
+      // console.log(json);
       setLoading(false);
       setPokeTypes(json.types.map(el => el.type.name));
       setPokeId(json.id);
-      setImage(json.sprites["front_default"]);
+      setImage(json.sprites.other["official-artwork"].front_default);
     }).catch(er => console.log(er));
   };
 
@@ -105,7 +105,7 @@ export default function Pokecard(props) {
     <>
       <StyledPokecard key={url} onClick={popupCard}>
         <StyledImageDiv>
-          {image ? <img src={loading ? loadingLogo : `${image}`} alt={`${name}`} width="160px" /> : <RiForbid2Line fontSize="8rem" />}
+          {<img src={loading ? loadingLogo : `${image}`} alt={`${name}`} width="160px" />}
         </StyledImageDiv>
         <StyledNumber>{`${fillZeroes(pokeId)}`}</StyledNumber>
         <StyledName>{name}</StyledName>

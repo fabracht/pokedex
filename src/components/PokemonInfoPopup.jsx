@@ -3,8 +3,6 @@ import styled from "@emotion/styled";
 import { fillZeroes } from "../utils/fillZeroes";
 import { RiForbid2Line } from "react-icons/ri";
 import { AiOutlineCloseCircle } from "react-icons/ai";
-import loadingLogo from "../assets/loadingLogo.svg";
-
 
 const StyledContainer = styled.div`
     display: flex;
@@ -13,6 +11,7 @@ const StyledContainer = styled.div`
     top: 10%;
     left: 15%;
     width: 70%;
+    min-height: 80vh;
     background-color: white;
     border: 1px solid black;
     border-radius: 10px;
@@ -38,7 +37,7 @@ const StyledStatsTitle = styled.div`
 
 const StyledDescriptionDiv = styled.div`
     max-width: 80%;
-    font-size: 2rem;
+    font-size: 1rem;
     `;
 
 const StyledStatsContainer = styled.div`
@@ -84,13 +83,39 @@ const CloseButtonDiv = styled.div`
     font-size: 3rem;
 `;
 
+const StyledAbilitiesDiv = styled.ul`
+    list-style: none;
+    padding: 0;
+    display: flex;
+    width: 100%;
+    justify-content: space-around;
+    align-items: center;
+`;
+
+const StyledAbility = styled.li`
+    border: 2px solid black;
+    border-radius: 10px;
+    padding: 10px 30px;
+    text-transform: capitalize;
+`;
+
 // (hp/atk/def/special-atk/special-def/speed)
 export default function PokemonInfoPage(props) {
-    const [loading, setLoading] = useState(false);
-    useEffect(() => {
-        console.log(props.abilities);
-        return () => {
+    const [description, setDescription] = useState(undefined);
+    const [openDescription, setOpenDescription] = useState(false);
 
+    const fetchData = () => {
+        fetch(`https://pokeapi.co/api/v2/ability/${props.pokeId}`).then(result => result.json()).then(json => {
+            // console.log(json.effect_entries.pop().effect);
+            setDescription(json.effect_entries.pop().effect);
+        }).catch(er => {
+            console.log(er);
+        });
+    };
+
+    useEffect(() => {
+        fetchData();
+        return () => {
         };
     }, []);
 
@@ -100,14 +125,14 @@ export default function PokemonInfoPage(props) {
                 <h2>{props.name} {`${fillZeroes(props.pokeId)}`}</h2>
             </StyledStatsTitle>
             <LeftSide>
-                {props.image ? <img src={loading ? loadingLogo : `${props.image}`} alt={`${props.name}`} width="100%" /> : <RiForbid2Line fontSize="8rem" />}
-                <ul>
-                    {props.abilities ? props.abilities.map((el, i) => <li key={`${el.name}-${i}`}>{el.name}</li>) : null}
-                </ul>
+                {props.image ? <img src={`${props.image}`} alt={`${props.name}`} width="70%" /> : <RiForbid2Line fontSize="8rem" />}
+                <StyledAbilitiesDiv>
+                    {props.abilities ? props.abilities.map((el, i) => <StyledAbility key={`${el.name}-${i}`}>{el.name}</StyledAbility>) : null}
+                </StyledAbilitiesDiv>
             </LeftSide>
             <RightSide>
                 <StyledDescriptionDiv>
-                    <p>Its appearance changes depending on where it evolved. The materials on hand become a part of its body</p>
+                    <p>{description ? description : "This Pokemon is very special. Make sure you keep reading."}</p>
                 </StyledDescriptionDiv>
                 <StyledStatsContainer>
                     <StatsList>

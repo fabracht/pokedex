@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import styled from "@emotion/styled";
 import backgroundSVG from "../assets/Pattern-Randomized.svg";
 import PokecardContainer from '../components/PokecardContainer';
@@ -15,21 +15,20 @@ const AppContainer = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
+  height: 100vh;
 `;
 
 
 const StyledTitle = styled.h2`
-    font-size: 5rem;
+    font-size: 4rem;
+    line-height: 1.5rem;
 `;
-
-
 
 export default function MainPage() {
     const [pokemonMainList, setPokemonMainList] = useState(null);
     const [nextPageUrl, setNextPageUrl] = useState(null);
     const [previousPageUrl, setPreviousPageUrl] = useState(null);
     const [searchText, setSearchText] = useState("");
-    // const [query, setQuery] = useState("");
     const [page, setPage] = useState(1);
 
 
@@ -44,7 +43,7 @@ export default function MainPage() {
         fetchData(previousPageUrl);
     };
 
-    const fetchData = (address) => {
+    const fetchData = useCallback((address) => {
         if (address) {
             fetch(address).then(result => result.json()).then(json => {
                 const { results, next, previous } = json;
@@ -58,7 +57,6 @@ export default function MainPage() {
                     setNextPageUrl(null);
                     setPreviousPageUrl(null);
                 }
-
                 setSearchText("");
             }).catch(er => {
                 console.log("Running");
@@ -69,7 +67,7 @@ export default function MainPage() {
                 setSearchText("");
             });
         }
-    };
+    }, []);
 
     const handleSubmit = (ev) => {
         ev.preventDefault();
@@ -77,10 +75,10 @@ export default function MainPage() {
     };
 
     useEffect(() => {
-        fetchData("https://pokeapi.co/api/v2/pokemon/");
+        fetchData("https://pokeapi.co/api/v2/pokemon/?limit=8");
         return () => {
         };
-    }, []);
+    }, [fetchData]);
 
 
     return (<AppContainer>
