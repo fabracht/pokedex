@@ -2,11 +2,15 @@ import './App.css';
 
 import React from "react";
 import MainPage from "./pages/MainPage";
+import AppStateProvider from "./AppState";
+
 
 function App() {
   return (
     <div className="App">
-      <MainPage />
+      <AppStateProvider>
+        <MainPage />
+      </AppStateProvider>
     </div>
   );
 }

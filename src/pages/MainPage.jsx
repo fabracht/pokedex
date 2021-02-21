@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useCallback } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import styled from "@emotion/styled";
 import backgroundSVG from "../assets/Pattern-Randomized.svg";
 import PokecardContainer from '../components/PokecardContainer';
@@ -7,6 +7,8 @@ import Header from '../components/Header';
 import { ButtonContainer } from '../components/ButtonContainer';
 import { Button } from '../components/Button';
 import SearchContainer from "../components/SearchContainer";
+
+import { AppStateContext } from "../AppState";
 
 
 const AppContainer = styled.div`
@@ -23,8 +25,8 @@ const StyledTitle = styled.h2`
     font-size: 4rem;
     line-height: 1.5rem;
 `;
-
-export default function MainPage() {
+export default function MainPage(props) {
+    // const state = useContext(AppStateContext);
     const [pokemonMainList, setPokemonMainList] = useState(null);
     const [nextPageUrl, setNextPageUrl] = useState(null);
     const [previousPageUrl, setPreviousPageUrl] = useState(null);
@@ -43,7 +45,7 @@ export default function MainPage() {
         fetchData(previousPageUrl);
     };
 
-    const fetchData = useCallback((address) => {
+    const fetchData = (address) => {
         if (address) {
             fetch(address).then(result => result.json()).then(json => {
                 const { results, next, previous } = json;
@@ -67,7 +69,7 @@ export default function MainPage() {
                 setSearchText("");
             });
         }
-    }, []);
+    };
 
     const handleSubmit = (ev) => {
         ev.preventDefault();
@@ -78,24 +80,25 @@ export default function MainPage() {
         fetchData("https://pokeapi.co/api/v2/pokemon/?limit=8");
         return () => {
         };
-    }, [fetchData]);
+    }, []);
 
 
-    return (<AppContainer>
-        <Header>
-            <StyledTitle>Pokédex</StyledTitle>
-            <SearchContainer searchText={searchText} setSearchText={setSearchText} handleSubmit={handleSubmit}></SearchContainer>
-        </Header>
-        <PokecardContainer>
-            {pokemonMainList ? pokemonMainList.map((el, i) => {
-                return <Pokecard key={el.url} {...el} />;
-            }) : null}
-        </PokecardContainer>
-        <ButtonContainer>
-            {previousPageUrl ? <Button onClick={previousPage}>Previous</Button> : null}
-            {nextPageUrl ? <Button onClick={nextPage}>Next</Button> : null}
-        </ButtonContainer>
-    </AppContainer>);
+    return (
+        <AppContainer>
+            <Header>
+                <StyledTitle>Pokédex</StyledTitle>
+                <SearchContainer searchText={searchText} setSearchText={setSearchText} handleSubmit={handleSubmit}></SearchContainer>
+            </Header>
+            <PokecardContainer>
+                {pokemonMainList ? pokemonMainList.map((el, i) => {
+                    return <Pokecard key={el.url} {...el} />;
+                }) : null}
+            </PokecardContainer>
+            <ButtonContainer>
+                {previousPageUrl ? <Button onClick={previousPage}>Previous</Button> : null}
+                {nextPageUrl ? <Button onClick={nextPage}>Next</Button> : null}
+            </ButtonContainer>
+        </AppContainer>);
 
 
 }

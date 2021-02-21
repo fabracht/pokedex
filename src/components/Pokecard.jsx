@@ -1,12 +1,12 @@
 import styled from "@emotion/styled";
 import React, { useEffect, useState } from 'react';
-import { RiForbid2Line } from "react-icons/ri";
 import { ColorMatcher } from "../utils/ColorMatcher";
 import loadingLogo from "../assets/loadingLogo.svg";
 import { fillZeroes } from "../utils/fillZeroes";
 
 import PokemonInfoPopup from "./PokemonInfoPopup";
 
+// import { RiForbid2Line } from "react-icons/ri";
 export const color = "black";
 
 const StyledPokecard = styled.li`

@@ -102,7 +102,7 @@ const StyledAbility = styled.li`
 // (hp/atk/def/special-atk/special-def/speed)
 export default function PokemonInfoPage(props) {
     const [description, setDescription] = useState(undefined);
-    const [openDescription, setOpenDescription] = useState(false);
+    // const [openDescription, setOpenDescription] = useState(false);
 
     const fetchData = () => {
         fetch(`https://pokeapi.co/api/v2/ability/${props.pokeId}`).then(result => result.json()).then(json => {
@@ -117,6 +117,7 @@ export default function PokemonInfoPage(props) {
         fetchData();
         return () => {
         };
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     return (

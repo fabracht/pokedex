@@ -1,7 +1,7 @@
-import React from "react";
+import React, { useContext } from "react";
 import { FiSearch } from "react-icons/fi";
 import styled from "@emotion/styled";
-
+import { AppStateContext } from "../AppState";
 
 export const StyledButton = styled.button`
     font-size: 3rem;
@@ -11,10 +11,7 @@ export const StyledButton = styled.button`
 `;
 
 export const StyledInput = styled.input`
-    // background-color: black;
     border: none;
-    // height: 3rem;
-    // width: 20rem;
     font-size: 3rem;
     padding: 20px 50px;
     display: flex;
@@ -31,11 +28,14 @@ export const StyledForm = styled.form`
     padding: 10px;
 `;
 
+
 export const StyledSearchContainer = styled.div`
     display: flex;
 `;
 
 export default function SearchContainer(props) {
+    const state = useContext(AppStateContext);
+
     return (
         <StyledSearchContainer>
             <StyledForm onSubmit={props.handleSubmit}>
@@ -45,3 +45,10 @@ export default function SearchContainer(props) {
         </StyledSearchContainer>
     );
 }
+
+// const dispatch = useStateDispatch();
+// const state = dispatch({
+//     type: "DEFAULT",
+//     payload: {},
+// });
+// console.log(state);
