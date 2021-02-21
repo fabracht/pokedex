@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useContext } from "react";
+import React, { useEffect, useState } from "react";
 import styled from "@emotion/styled";
 import backgroundSVG from "../assets/Pattern-Randomized.svg";
 import PokecardContainer from '../components/PokecardContainer';
@@ -7,8 +7,6 @@ import Header from '../components/Header';
 import { ButtonContainer } from '../components/ButtonContainer';
 import { Button } from '../components/Button';
 import SearchContainer from "../components/SearchContainer";
-
-import { AppStateContext } from "../AppState";
 
 
 const AppContainer = styled.div`
@@ -25,8 +23,7 @@ const StyledTitle = styled.h2`
     font-size: 4rem;
     line-height: 1.5rem;
 `;
-export default function MainPage(props) {
-    // const state = useContext(AppStateContext);
+export default function MainPage() {
     const [pokemonMainList, setPokemonMainList] = useState(null);
     const [nextPageUrl, setNextPageUrl] = useState(null);
     const [previousPageUrl, setPreviousPageUrl] = useState(null);

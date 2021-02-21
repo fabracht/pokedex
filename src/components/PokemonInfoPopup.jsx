@@ -106,7 +106,6 @@ export default function PokemonInfoPage(props) {
 
     const fetchData = () => {
         fetch(`https://pokeapi.co/api/v2/ability/${props.pokeId}`).then(result => result.json()).then(json => {
-            // console.log(json.effect_entries.pop().effect);
             setDescription(json.effect_entries.pop().effect);
         }).catch(er => {
             console.log(er);
@@ -114,7 +113,9 @@ export default function PokemonInfoPage(props) {
     };
 
     useEffect(() => {
-        fetchData();
+        if (!description) {
+            fetchData();
+        }
         return () => {
         };
         // eslint-disable-next-line react-hooks/exhaustive-deps

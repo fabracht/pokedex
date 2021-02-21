@@ -45,7 +45,7 @@ const AppStateProvider = ({ children }) => {
         } else {
             state.pokemonMainList = pokemonList;
         }
-    }, []);
+    }, [state]);
 
     return (
         <AppStateContext.Provider value={state}>
