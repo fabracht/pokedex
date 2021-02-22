@@ -12,6 +12,9 @@ export const InputSuggestionList = styled.ul`
     background-color: white;
     padding-right: 50px;
     z-index: 100;
+    @media(max-width: 500px) {
+        left: 7%;
+    }
     `;
 export const InputSuggestionItem = styled.li`
     font-size: 3rem;
@@ -19,6 +22,9 @@ export const InputSuggestionItem = styled.li`
     color: rgba(0, 60, 255, 0.4);
     &:not(:last-child) {
         border-bottom: 1px dashed lightgrey;
+    }
+    @media(max-width: 500px) {
+            font-size: 1rem;
     }
     `;
 
@@ -30,6 +36,9 @@ export const ActiveSuggestionItem = styled.li`
     cursor: pointer;
     &:not(:last-child) {
         border-bottom: 1px dashed lightgrey;
+    }
+    @media(max-width: 500px) {
+        font-size: 1rem;        
     }
     `;
 export function InputSuggestions(props) {

@@ -7,7 +7,8 @@ import Header from '../components/Header';
 import { ButtonContainer } from '../components/ButtonContainer';
 import { Button } from '../components/Button';
 import SearchContainer from "../components/SearchContainer";
-
+import Logo from "../assets/ball-icon.svg";
+import { colorWheel } from "../utils/colorWheel";
 
 const AppContainer = styled.div`
   background-image: url(${backgroundSVG});
@@ -18,9 +19,17 @@ const AppContainer = styled.div`
   height: 100vh;
 `;
 
-const StyledTitle = styled.h2`
+const StyledTitle = styled.div`
     font-size: 4rem;
-    line-height: 1.5rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-weight: 700;
+    color: ${colorWheel.primarydark};
+    text-shadow: 5px 5px ${colorWheel.darkgrey};
+    @media(max-width: 500px) {
+        font-size: 3rem;
+    }
 `;
 export default function MainPage() {
     const [pokemonMainList, setPokemonMainList] = useState(null);
@@ -82,7 +91,7 @@ export default function MainPage() {
     return (
         <AppContainer>
             <Header>
-                <StyledTitle>Pokédex</StyledTitle>
+                <StyledTitle><img src={Logo} style={{ maxHeight: 100 }} alt="pokeball" /><span>Pokédex</span></StyledTitle>
                 <SearchContainer searchText={searchText} setPokemonMainList={setPokemonMainList} setSearchText={setSearchText} handleSubmit={handleSubmit}></SearchContainer>
             </Header>
             <PokecardContainer>

@@ -3,6 +3,7 @@ import { FiSearch } from "react-icons/fi";
 import styled from "@emotion/styled";
 import { AppStateContext } from "../AppState";
 import { InputSuggestions } from "./InputSuggestions";
+import { colorWheel } from "../utils/colorWheel";
 
 export const StyledButton = styled.button`
     font-size: 3rem;
@@ -14,6 +15,13 @@ export const StyledButton = styled.button`
     border-radius: 10px;
     &:hover {
         box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.4);
+        background-color: ${colorWheel.secondary};
+    }
+    @media(max-width: 500px) {
+        font-size: 1rem;
+        padding: 20px 30px;
+        border-radius: 0 10px 10px 0;
+        background-color: ${colorWheel.primarydark}
     }
 `;
 
@@ -25,13 +33,19 @@ export const StyledInput = styled.input`
     &:selected {
         border: none;
     }
+    @media(max-width: 500px) {
+        font-size: 1rem;
+    }
 `;
 export const StyledForm = styled.form`
     display: flex;
     justify-content: center;
     align-items: center;
-    background-color: yellow;
+    background-color: ${colorWheel.darkgrey};
     padding: 10px;
+    @media(max-width: 500px) {
+
+    }
 `;
 
 
@@ -41,6 +55,10 @@ export const StyledSearchContainer = styled.div`
     column-gap: 10px;
     align-items: center;
     position: relative;
+    @media(max-width: 500px) {
+        flex-wrap: wrap;
+        justify-content: center;
+    }
 `;
 
 const StyledRandomizeButton = styled.div`
@@ -48,8 +66,13 @@ const StyledRandomizeButton = styled.div`
     border: inset 2px black;
     border-radius: 10px;
     padding: 30px 10px;
-    background-color: #E3350D;
+    background-color: ${colorWheel.pink};
     cursor: pointer;
+    @media(max-width: 500px) {
+        font-size: 1rem;
+        padding: 10px 0;
+        width: 90%;
+    }
 `;
 
 export default function SearchContainer(props) {

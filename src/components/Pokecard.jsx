@@ -23,10 +23,9 @@ const StyledPokecard = styled.li`
   transition: all 0.1s;
   border: inset 3px black;
   &:hover {
-    transform: translate(-10px, 10px);
+    transform: translate(-5px, 5px);
     box-shadow: 5px 5px 5px rgba(0, 0, 0, 50%);
     background-color: rgba(250, 250, 250, 1.0);
-    border: 1px solid black;
   };
   &:active {
     background-color: grey;

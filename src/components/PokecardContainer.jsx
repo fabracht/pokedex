@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from "@emotion/styled";
+import { colorWheel } from "../utils/colorWheel";
 
 const StyledPokecardContainer = styled.ul`
   display: flex;
@@ -10,7 +11,7 @@ const StyledPokecardContainer = styled.ul`
   row-gap: 10px;
   list-style-type: none;
   padding: 30px;
-  background-color: yellow;
+  background-color: ${colorWheel.darkgrey};
   width: 80%;
   // place-items: center;
   justify-content: center;
@@ -30,13 +31,15 @@ const StyledContainer = styled.div`
   display: flex;
   justify-content: center;
   margin: 0 auto;
-  background-color: grey;
+  background-color: ${colorWheel.primarydark};
   width: 100%;
 `;
 export default function PokecardContainer(props) {
   return (
     <StyledContainer>
-      <StyledPokecardContainer>{props.children}</StyledPokecardContainer>
+      <StyledPokecardContainer>
+        {props.children}
+      </StyledPokecardContainer>
     </StyledContainer>
   );
 }
