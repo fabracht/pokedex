@@ -7,11 +7,11 @@ import AppStateProvider from "./AppState";
 
 function App() {
   return (
-    <div className="App">
-      <AppStateProvider>
+    <AppStateProvider>
+      <div className="App">
         <MainPage />
-      </AppStateProvider>
-    </div>
+      </div>
+    </AppStateProvider>
   );
 }
 

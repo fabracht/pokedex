@@ -8,7 +8,7 @@ export const InputSuggestionList = styled.ul`
     list-style: none;
     position: absolute;
     top: 90px;
-    left: 1%;
+    left: 16%;
     background-color: white;
     padding-right: 50px;
     z-index: 100;

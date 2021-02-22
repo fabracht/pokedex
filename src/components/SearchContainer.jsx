@@ -38,11 +38,19 @@ export const StyledForm = styled.form`
 
 export const StyledSearchContainer = styled.div`
     display: flex;
-    flex-direction: column;
-    align-items: flex-start;
+    column-gap: 10px;
+    align-items: center;
     position: relative;
 `;
 
+const StyledRandomizeButton = styled.div`
+    font-size: 2rem;
+    border: inset 2px black;
+    border-radius: 10px;
+    padding: 30px 10px;
+    background-color: #E3350D;
+    cursor: pointer;
+`;
 
 export default function SearchContainer(props) {
     const inputRef = useRef(null);
@@ -53,11 +61,13 @@ export default function SearchContainer(props) {
     const handleChange = (ev) => {
         const value = ev.currentTarget.value.toLowerCase();
         props.setSearchText(value);
+        if (state) {
+            const pokemonMainList = state.pokemonMainList;
 
-        const pokemonMainList = JSON.parse(state.pokemonMainList);
-        if (pokemonMainList) {
-            const possibleValues = pokemonMainList.filter(el => el.match(new RegExp(value, "g")));
-            setPossibilities(possibleValues.slice(0, 3));
+            if (pokemonMainList) {
+                const possibleValues = pokemonMainList.map(el => el.name).filter(el => el.match(new RegExp(value, "g")));
+                setPossibilities(possibleValues.slice(0, 3));
+            }
         }
         if (value.length === 0) {
             setPossibilities(null);
@@ -102,8 +112,29 @@ export default function SearchContainer(props) {
         }
     };
 
+    const handleRandomize = (ev) => {
+        const randomResults = [];
+        const pokemonRandomList = [];
+        let random = Math.floor(Math.random() * state.pokemonMainList.length);
+        if (state) {
+            const { pokemonMainList } = state;
+            randomResults.push(random);
+            pokemonRandomList.push(pokemonMainList[random]);
+            for (let i = 0; i < 19; ++i) {
+                while (randomResults.includes(random)) {
+                    random = Math.floor(Math.random() * state.pokemonMainList.length);
+                }
+                randomResults.push(random);
+                pokemonRandomList.push(pokemonMainList[random]);
+            }
+            props.setPokemonMainList(pokemonRandomList);
+        }
+
+    };
+
     return (
         <StyledSearchContainer>
+            <StyledRandomizeButton onClick={handleRandomize}>Random</StyledRandomizeButton>
             <StyledForm autoComplete="off" onSubmit={props.handleSubmit}>
                 <StyledInput ref={inputRef} onKeyDown={handleKeyPress} autoFocus={true} placeholder="Search by name or number" type="text" onChange={handleChange} value={props.searchText} />
                 <StyledButton type="submit"><FiSearch /></StyledButton>

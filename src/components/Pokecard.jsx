@@ -6,7 +6,7 @@ import { fillZeroes } from "../utils/fillZeroes";
 
 import PokemonInfoPopup from "./PokemonInfoPopup";
 
-// import { RiForbid2Line } from "react-icons/ri";
+import { RiForbid2Line } from "react-icons/ri";
 export const color = "black";
 
 const StyledPokecard = styled.li`
@@ -70,6 +70,7 @@ export default function Pokecard(props) {
   const [stats, setStats] = useState([]);
   const [showStats, setShowStats] = useState(false);
   const [abilities, setAbilities] = useState([]);
+  const [notFound, setNotFound] = useState(false);
 
 
   const fetchData = (pokemonUrl) => {
@@ -78,10 +79,8 @@ export default function Pokecard(props) {
       // (hp/atk/def/special-atk/special-def/speed)
       setStats(json.stats.map(el => { return { statValue: el.base_stat, name: el.stat.name }; }));
       setAbilities(json.abilities.map(el => {
-        // console.log(el.ability);
         return { name: el.ability.name, url: el.ability.url };
       }));
-      // console.log(json);
       setLoading(false);
       setPokeTypes(json.types.map(el => el.type.name));
       setPokeId(json.id);
@@ -94,8 +93,11 @@ export default function Pokecard(props) {
   };
 
   useEffect(() => {
-    if (url)
+    if (url) {
       fetchData(url);
+    } else {
+      setNotFound(true);
+    }
     return () => {
     };
   }, [url]);
@@ -105,7 +107,7 @@ export default function Pokecard(props) {
     <>
       <StyledPokecard key={url} onClick={popupCard}>
         <StyledImageDiv>
-          {<img src={loading ? loadingLogo : `${image}`} alt={`${name}`} width="160px" />}
+          {notFound ? <RiForbid2Line style={{ width: 160, height: 160 }} /> : <img src={loading ? loadingLogo : `${image}`} alt={`${name}`} width="160px" />}
         </StyledImageDiv>
         <StyledNumber>{`${fillZeroes(pokeId)}`}</StyledNumber>
         <StyledName>{name}</StyledName>

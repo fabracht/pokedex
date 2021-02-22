@@ -18,7 +18,6 @@ const AppContainer = styled.div`
   height: 100vh;
 `;
 
-
 const StyledTitle = styled.h2`
     font-size: 4rem;
     line-height: 1.5rem;
@@ -29,7 +28,6 @@ export default function MainPage() {
     const [previousPageUrl, setPreviousPageUrl] = useState(null);
     const [searchText, setSearchText] = useState("");
     const [page, setPage] = useState(1);
-
 
     const nextPage = (ev) => {
         ev.preventDefault();
@@ -73,17 +71,19 @@ export default function MainPage() {
     };
 
     useEffect(() => {
-        fetchData("https://pokeapi.co/api/v2/pokemon/?limit=8");
+        if (!pokemonMainList) {
+            fetchData("https://pokeapi.co/api/v2/pokemon/?limit=8");
+        }
         return () => {
         };
-    }, []);
+    }, [pokemonMainList]);
 
 
     return (
         <AppContainer>
             <Header>
                 <StyledTitle>Pokédex</StyledTitle>
-                <SearchContainer searchText={searchText} setSearchText={setSearchText} handleSubmit={handleSubmit}></SearchContainer>
+                <SearchContainer searchText={searchText} setPokemonMainList={setPokemonMainList} setSearchText={setSearchText} handleSubmit={handleSubmit}></SearchContainer>
             </Header>
             <PokecardContainer>
                 {pokemonMainList ? pokemonMainList.map((el, i) => {

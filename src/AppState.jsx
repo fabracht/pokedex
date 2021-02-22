@@ -9,17 +9,16 @@ export const AppStateContext = createContext(defaultContext);
 export const AppDispatchContext = createContext(undefined);
 
 const reducer = (state, action) => {
-    console.log(action.type);
     switch (action.type) {
         case "INITIALIZE":
             fetch("https://pokeapi.co/api/v2/pokemon/?limit=3000").then(result => result.json()).then(json => {
                 const { results } = json;
-                state.pokemonMainList = results.map(el => el.name);
+                state.pokemonMainList = results;
                 window.sessionStorage.setItem("pokemonmainlist", JSON.stringify(state.pokemonMainList));
             }).catch(er => {
                 console.log(er);
             });
-            break;
+            return state;
         default:
             return state;
     }
@@ -38,14 +37,15 @@ const AppStateProvider = ({ children }) => {
 
     useEffect(() => {
         const pokemonList = window.sessionStorage.getItem("pokemonmainlist");
+
         if (!pokemonList) {
             dispatch({
                 type: "INITIALIZE",
             });
         } else {
-            state.pokemonMainList = pokemonList;
+            state.pokemonMainList = JSON.parse(pokemonList);
         }
-    }, [state]);
+    });
 
     return (
         <AppStateContext.Provider value={state}>
