@@ -69,7 +69,6 @@ export function StatsContainer(props) {
                     <Statsname>{el.name}</Statsname>
                 </StatsListItem>;
             }) : null}
-
         </StatsList>
     </StyledStatsContainer>);
 }

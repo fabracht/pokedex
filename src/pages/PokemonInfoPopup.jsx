@@ -3,7 +3,7 @@ import styled from "@emotion/styled";
 import { fillZeroes } from "../utils/fillZeroes";
 import { RiForbid2Line } from "react-icons/ri";
 import { AiOutlineCloseCircle } from "react-icons/ai";
-import { StatsContainer } from './StatsContainer';
+import { StatsContainer } from '../components/StatsContainer';
 
 const StyledContainer = styled.div`
     display: flex;
