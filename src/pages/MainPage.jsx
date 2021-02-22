@@ -58,7 +58,6 @@ export default function MainPage() {
                 }
                 setSearchText("");
             }).catch(er => {
-                console.log("Running");
                 console.log(er);
                 setPokemonMainList([{ name: "Sorry but we couldn't find your Pokemon", id: "X", sprites: null, types: ["few"], url: null }]);
                 setNextPageUrl(null);

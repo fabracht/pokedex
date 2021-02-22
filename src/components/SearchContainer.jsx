@@ -1,7 +1,8 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useState, useRef } from "react";
 import { FiSearch } from "react-icons/fi";
 import styled from "@emotion/styled";
 import { AppStateContext } from "../AppState";
+import { InputSuggestions } from "./InputSuggestions";
 
 export const StyledButton = styled.button`
     font-size: 3rem;
@@ -33,36 +34,7 @@ export const StyledForm = styled.form`
     padding: 10px;
 `;
 
-export const InputSuggestionList = styled.ul`
-    display: flex;
-    flex-direction: column;
-    // gap: 30px;
-    list-style: none;
-    position: absolute;
-    top: 90px;
-    left: 10px;
-    background-color: white;
-    padding-right: 50px;
-    `;
-export const InputSuggestionItem = styled.li`
-    font-size: 3rem;
-    padding-bottom: 15px;
-    color: rgba(0, 60, 255, 0.4);
-    &:not(:last-child) {
-        border-bottom: 1px dashed lightgrey;
-    }
-    `;
 
-export const ActiveSuggestionItem = styled.li`
-    font-size: 3rem;
-    padding-bottom: 15px;
-    color: rgba(0, 60, 255, 0.4);
-    background-color: red;
-    
-    &:not(:last-child) {
-        border-bottom: 1px dashed lightgrey;
-    }
-    `;
 
 export const StyledSearchContainer = styled.div`
     display: flex;
@@ -72,21 +44,8 @@ export const StyledSearchContainer = styled.div`
 `;
 
 
-function InputSuggestions(props) {
-    return (
-        <InputSuggestionList>
-            {props.possibilities ? props.possibilities.map((el, i) => {
-                if (props.selected === i) {
-                    return <ActiveSuggestionItem key={el}>{el}</ActiveSuggestionItem>;
-                }
-                return <InputSuggestionItem key={el}>{el}</InputSuggestionItem>;
-            }) : null}
-        </InputSuggestionList>
-    );
-}
-
-
 export default function SearchContainer(props) {
+    const inputRef = useRef(null);
     const state = useContext(AppStateContext);
     const [possibilities, setPossibilities] = useState(null);
     const [selectedPossibility, setSelectedPossibility] = useState(null);
@@ -111,21 +70,22 @@ export default function SearchContainer(props) {
             ev.preventDefault();
             if (selectedPossibility === null) {
                 setSelectedPossibility(0);
-            } else if (selectedPossibility < possibilities.length - 1) {
+            } else if (possibilities && selectedPossibility < possibilities.length - 1) {
                 setSelectedPossibility(selectedPossibility + 1);
             }
         } else if (ev.code === "ArrowUp") {
             ev.preventDefault();
-            if (selectedPossibility === null) {
-                setSelectedPossibility(0);
-            } else if (selectedPossibility > 0) {
-                setSelectedPossibility(selectedPossibility - 1);
-            } else if (selectedPossibility === 0) {
-                setSelectedPossibility(null);
+            if (selectedPossibility !== null) {
+                if (possibilities && selectedPossibility > 0) {
+                    setSelectedPossibility(selectedPossibility - 1);
+                }
             }
+            // else if (selectedPossibility === 0) {
+            //     setSelectedPossibility(null);
+            // }
         } else if (ev.code === "Enter") {
             ev.preventDefault();
-            if (selectedPossibility) {
+            if (selectedPossibility !== null) {
                 if (possibilities) {
                     props.setSearchText(possibilities[selectedPossibility]);
                     setPossibilities(null);
@@ -134,6 +94,7 @@ export default function SearchContainer(props) {
             } else {
                 props.handleSubmit(ev);
                 setPossibilities(null);
+                setSelectedPossibility(null);
             }
 
         } else if (ev.code === "Escape") {
@@ -144,10 +105,10 @@ export default function SearchContainer(props) {
     return (
         <StyledSearchContainer>
             <StyledForm autoComplete="off" onSubmit={props.handleSubmit}>
-                <StyledInput onKeyDown={handleKeyPress} autoFocus={true} placeholder="Search by name or number" type="text" onChange={handleChange} value={props.searchText} />
+                <StyledInput ref={inputRef} onKeyDown={handleKeyPress} autoFocus={true} placeholder="Search by name or number" type="text" onChange={handleChange} value={props.searchText} />
                 <StyledButton type="submit"><FiSearch /></StyledButton>
             </StyledForm>
-            <InputSuggestions possibilities={possibilities} selected={selectedPossibility}></InputSuggestions>
+            <InputSuggestions inputRef={inputRef} setSearch={props.setSearchText} possibilities={possibilities} setPossibilities={setPossibilities} setSelected={setSelectedPossibility} selected={selectedPossibility}></InputSuggestions>
         </StyledSearchContainer>
     );
 }

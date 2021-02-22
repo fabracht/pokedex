@@ -11,7 +11,8 @@ const StyledContainer = styled.div`
     top: 10%;
     left: 15%;
     width: 70%;
-    min-height: 80vh;
+    padding: 20px;
+    min-height: 60vh;
     background-color: white;
     border: 1px solid black;
     border-radius: 10px;
@@ -25,19 +26,26 @@ const LeftSide = styled.div`
     `;
 const RightSide = styled.div`
     width: 50%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
 `;
 
 const StyledStatsTitle = styled.div`
-    display: flex;
-    justify-content: center;
+    text-align: center;
     width: 100%;
     font-size: 2rem;
     text-transform: capitalize;
+    line-height: 30%;
 `;
 
 const StyledDescriptionDiv = styled.div`
     max-width: 80%;
     font-size: 1rem;
+    text-indent: 50px;
+    text-align: justify;
+    leter-spacing: 2px;
     `;
 
 const StyledStatsContainer = styled.div`
@@ -78,7 +86,7 @@ const Gauge = styled.div`
 `;
 
 const CloseButtonDiv = styled.div`
-    justify-self: flex-end;
+    place-self: flex-end;
     text-align: right;
     font-size: 3rem;
 `;
