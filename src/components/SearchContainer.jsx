@@ -68,6 +68,10 @@ const StyledRandomizeButton = styled.div`
     padding: 30px 10px;
     background-color: ${colorWheel.pink};
     cursor: pointer;
+
+    &:hover {
+        background-color: ${colorWheel.secondary};
+    }
     @media(max-width: 500px) {
         font-size: 1rem;
         padding: 10px 0;
