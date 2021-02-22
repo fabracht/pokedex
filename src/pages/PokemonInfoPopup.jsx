@@ -3,7 +3,7 @@ import styled from "@emotion/styled";
 import { fillZeroes } from "../utils/fillZeroes";
 import { RiForbid2Line } from "react-icons/ri";
 import { AiOutlineCloseCircle } from "react-icons/ai";
-import { colorWheel } from '../utils/colorWheel';
+import { StatsContainer } from './StatsContainer';
 
 const StyledContainer = styled.div`
     display: flex;
@@ -76,63 +76,6 @@ const StyledDescriptionDiv = styled.div`
     }
     `;
 
-const StyledStatsContainer = styled.div`
-    // width: 80%;
-    display: flex;
-    @media(max-width: 500px) {
-        position: relative;
-        // width: 100%;
-        // left: -10%;
-    }
-    `;
-const StatsList = styled.ul`
-    padding: 0;
-    list-style-type: none;
-    align-items: flex-end;
-    display: flex;
-    column-gap: 5px;
-    height: 250px;
-    border: 1px solid rgba(0,0,0, 0.7);
-    border-radius: 10px;
-    padding: 10px;
-    background-color: ${colorWheel.grey};
-    @media(max-width: 500px) {
-        height: 100%;
-        padding: 5px;
-    }
-    `;
-const StatsListItem = styled.li`
-    min-width: 60px;
-    text-align: center;
-    display: flex;
-    height: 100%;
-    place-content: flex-end;
-    flex-direction: column;
-    border: 1px solid black;
-    background-color: white;
-    @media(max-width: 500px) {
-        min-width: 40px;
-    }
-    `;
-const Statsname = styled.p`
-    text-transform: capitalize;
-    height: 30px;
-    @media(max-width: 500px) {
-        font-size: 10px;
-        word-wrap: break-word;
-    }
-`;
-const Gauge = styled.div`
-    margin: 0 auto;
-    width: 90%;
-    height: ${props => props.height ? props.height : "1px"};
-    background-color: red;
-    @media(max-width: 500px) {
-        font-size: 14px;
-        width: 95%;
-    }
-`;
-
 const CloseButtonDiv = styled.div`
     place-self: flex-end;
     text-align: right;
@@ -161,15 +104,16 @@ const StyledAbility = styled.li`
 
     }
 `;
+const StyledImageDiv = styled.div`
+    width: 50vw;
+    display: flex;
+    justify-content: center;
+    place-items: flex-end;
+    `;
 
 const StyledImage = styled.img`
-    width: 70vw;
-    @media(max-width: 500px) {
-        width: 40vw;
-    }
+    scale: 0.7;
 `;
-
-// (hp/atk/def/special-atk/special-def/speed)
 export default function PokemonInfoPage(props) {
     const [description, setDescription] = useState(undefined);
 
@@ -188,7 +132,7 @@ export default function PokemonInfoPage(props) {
         return () => {
         };
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []);
+    }, [description]);
 
     return (
         <StyledContainer>
@@ -196,7 +140,9 @@ export default function PokemonInfoPage(props) {
                 <span>{props.name} </span><span>{`${fillZeroes(props.pokeId)}`}</span>
             </StyledStatsTitle>
             <LeftSide>
-                {props.image ? <StyledImage src={`${props.image}`} alt={`${props.name}`} /> : <RiForbid2Line fontSize="8rem" />}
+                <StyledImageDiv>
+                    {props.image ? <StyledImage src={`${props.image}`} alt={`${props.name}`} /> : <RiForbid2Line fontSize="8rem" />}
+                </StyledImageDiv>
                 <StyledAbilitiesDiv>
                     {props.abilities ? props.abilities.map((el, i) => <StyledAbility key={`${el.name}-${i}`}>{el.name}</StyledAbility>) : null}
                 </StyledAbilitiesDiv>
@@ -205,19 +151,7 @@ export default function PokemonInfoPage(props) {
                 <StyledDescriptionDiv>
                     <p>{description ? description : "This Pokemon is very special. Make sure you keep reading."}</p>
                 </StyledDescriptionDiv>
-                <StyledStatsContainer>
-                    <StatsList>
-                        {props.stats ? props.stats.map((el, i) => {
-                            return (
-                                <StatsListItem key={`${el}-${i}`}>
-                                    <Gauge height={`${Number.parseInt(el.statValue)}px`}>{`${el.statValue}`}</Gauge>
-                                    <Statsname >{el.name}</Statsname>
-                                </StatsListItem>
-                            );
-                        }) : null}
-
-                    </StatsList>
-                </StyledStatsContainer>
+                <StatsContainer stats={props.stats}></StatsContainer>
                 <CloseButtonDiv >
                     <AiOutlineCloseCircle cursor={"pointer"} onClick={props.setPopupCard} />
                 </CloseButtonDiv>
